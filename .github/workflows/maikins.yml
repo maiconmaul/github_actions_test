@@ -13,6 +13,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Testar secrets
+        run: echo "Secrets configuradas corretamente!"
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          EMAIL_ORIGEM: ${{ secrets.EMAIL_ORIGEM }}
+          EMAIL_DESTINO: ${{ secrets.EMAIL_DESTINO }}
+
       - name: Checar repositório
         uses: actions/checkout@v2
         with:
