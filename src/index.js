@@ -9,7 +9,7 @@ app.get('/api', (req, res) => {
   res.send('Hello world!');
 });
 
-app.get('/api/test', (req, res) => {
+app.get('/api/test-1', (req, res) => {
   res.send({ message: 'Endpoint de teste na branch master com merge'});
 });
 
