@@ -19,6 +19,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           EMAIL_ORIGEM: ${{ secrets.EMAIL_ORIGEM }}
           EMAIL_DESTINO: ${{ secrets.EMAIL_DESTINO }}
+          SENHA_EMAIL: ${{ secrets.SENHA_EMAIL }}
 
       - name: Checar repositório
         uses: actions/checkout@v2
