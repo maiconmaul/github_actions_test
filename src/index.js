@@ -21,6 +21,10 @@ app.get('/api/test-3', (req, res) => {
   res.send({ message: 'Branch conflict endpoint teste 3'});
 });
 
+app.get('/api/test-4', (req, res) => {
+  res.send({ message: 'Branch conflict endpoint teste 3'});
+});
+
 app.listen(port, () => {
   console.log(`Listening http://localhost:${port}`);
 });
