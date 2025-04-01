@@ -18,7 +18,7 @@ app.get('/api/test-2', (req, res) => {
 });
 
 app.get('/api/test-3', (req, res) => {
-  res.send({ message: 'Branch develop endpoint teste 3'});
+  res.send({ message: 'Branch conflict endpoint teste 3'});
 });
 
 app.listen(port, () => {
