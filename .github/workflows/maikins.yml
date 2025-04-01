@@ -57,27 +57,28 @@ jobs:
         id: version
         run: |
           git fetch --tags
-          LAST_TAG=$(git describe --tags)
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null)
           if [ -z "$LAST_TAG" ]; then
             LAST_TAG="v0.0.0"
           fi
           echo "Versão Atual: $LAST_TAG"
-
-          if [ "$LAST_TAG" = "v0.0.0" ]; then
-            COMMITS=$(git log --pretty=format:"%s")
-          else
-            COMMITS=$(git log ${LAST_TAG}..HEAD --pretty=format:"%s")
-          fi
-          echo "Commits desde a última tag:"
-          echo "$COMMITS"
-
+          
           # Inicializando variáveis
           MAJOR=0
           MINOR=0
           PATCH=0
 
+          # Obtém mensagens de commit desde a última tag
+          if [ "$LAST_TAG" = "v0.0.0" ]; then
+            COMMITS=$(git log --pretty=format:"%s")
+          else
+            COMMITS=$(git log ${LAST_TAG}..HEAD --pretty=format:"%s")
+          fi
+          
+          echo "Commits desde a última tag:"
+          echo "$COMMITS"
+
           # Analisando mensagens de commit
-          IFS=$'\n'
           for COMMIT in $COMMITS; do
             if [[ "$COMMIT" == *"BREAKING CHANGE"* ]]; then
               MAJOR=1
@@ -88,15 +89,15 @@ jobs:
             fi
           done
 
-          # Calculando a nova versão usando semver
-          CURRENT_VERSION=${LAST_TAG#v}
-          NEW_VERSION=$CURRENT_VERSION
+          # Define a nova versão conforme as regras do SemVer
           if [[ $MAJOR -eq 1 ]]; then
             NEW_VERSION=$(semver -i major $CURRENT_VERSION)
           elif [[ $MINOR -eq 1 ]]; then
             NEW_VERSION=$(semver -i minor $CURRENT_VERSION)
           elif [[ $PATCH -eq 1 ]]; then
             NEW_VERSION=$(semver -i patch $CURRENT_VERSION)
+          else
+            NEW_VERSION=$CURRENT_VERSION  # Sem mudanças, mantém a versão atual
           fi
     
           echo "Nova versão: $NEW_VERSION"
